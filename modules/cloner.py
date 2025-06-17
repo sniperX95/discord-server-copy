@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import json
 
 from collections import deque
 from collections.abc import Sequence
@@ -529,7 +530,7 @@ class ServerCopy:
                 await webhook.delete()
                 await asyncio.sleep(self.webhook_delay)
             self.mappings["webhooks"].clear()
-            self.logger.success(f"Successfully cleaned up after cloning messages")
+            self.logger.success("Successfully cleaned up after cloning messages")
 
         self.processing_messages = False
         self.last_executed_method = "cleanup_after_cloning"
@@ -595,8 +596,10 @@ class ServerCopy:
                 webhook = await channel.create_webhook(name="bot by itskekoff")
             except (discord.NotFound, discord.Forbidden) as e:
                 if self.debug:
-                    self.logger.debug(f"Can't create webhook: " +
-                                      ('unknown channel' if isinstance(e, discord.NotFound) else 'missing permissions'))
+                    self.logger.debug(
+                        "Can't create webhook: "
+                        + ("unknown channel" if isinstance(e, discord.NotFound) else "missing permissions")
+                    )
                 return
 
             await asyncio.sleep(self.webhook_delay)

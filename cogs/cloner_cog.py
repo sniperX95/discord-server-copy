@@ -1,4 +1,3 @@
-import asyncio
 import datetime
 import time
 from collections import defaultdict
@@ -49,14 +48,15 @@ class ClonerCog(commands.Cog):
         if args["load"]:
             latest_cloner.load_state()
         if args["start"]:
-            last_method = latest_cloner.last_executed_method
-            cloner_args = latest_cloner.args
-            conditions_to_functions = {}
+            cloner = latest_cloner
+            logger = cloner.logger
+            last_method = cloner.last_executed_method
+            cloner_args = cloner.args
+            tasks = []
 
             def append_if_different(condition, logger_message, executing_function):
                 if condition and last_method != executing_function.__name__:
-                    conditions_to_functions[True] = conditions_to_functions.get(True, [])
-                    conditions_to_functions[True].append((logger_message, executing_function))
+                    tasks.append((logger_message, executing_function))
 
             append_if_different(cloner_args["clear_guild"], "Preparing guild to process...", cloner.prepare_server)
             append_if_different(cloner_args["clone_icon"], "Processing server icon...", cloner.clone_icon)
@@ -68,9 +68,8 @@ class ClonerCog(commands.Cog):
             append_if_different(cloner_args["clone_emojis"], "Processing server emojis...", cloner.clone_emojis)
             append_if_different(cloner_args["clone_stickers"], "Processing stickers...", cloner.clone_stickers)
             append_if_different(cloner_args["clone_messages"], "Processing server messages...", cloner.clone_messages)
-            true_conditions = conditions_to_functions[True]
 
-            for message, function in true_conditions:
+            for message, function in tasks:
                 logger.info(message)
                 await function()
 
