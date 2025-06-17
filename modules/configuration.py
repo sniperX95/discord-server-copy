@@ -31,11 +31,11 @@ class Configuration:
         if isinstance(keys, str):
             self.config[keys] = value
             return self
+
+        cfg = self.config
         for key in keys[:-1]:
-            if key not in self.config:
-                self.config[key] = {}
-            self.config = self.config[key]
-        self.config[keys[-1]] = value
+            cfg = cfg.setdefault(key, {})
+        cfg[keys[-1]] = value
         return self
 
     def write_dict(self, to_write: dict):
