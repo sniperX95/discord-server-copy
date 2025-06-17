@@ -1,7 +1,6 @@
 import requests
 import re
 from packaging import version
-import logging
 
 from modules.logger import Logger
 
@@ -51,7 +50,7 @@ class Updater:
         """
         latest_version = self.get_latest_version()
         if latest_version and version.parse(self.current_version) < version.parse(latest_version):
-            self.logger.warning(f"Update available. Download it from GitHub.")
+            self.logger.warning("Update available. Download it from GitHub.")
             self.logger.warning(f"Current version is {self.current_version}, latest version: {latest_version}")
         elif latest_version:
             self.logger.info("No updates found.")

@@ -1,8 +1,7 @@
 import json
 import os
-from functools import reduce
 
-from typing import Any, List, Dict, Tuple
+from typing import Any, List
 
 
 class Configuration:

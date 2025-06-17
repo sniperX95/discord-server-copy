@@ -2,7 +2,6 @@ import os
 import sys
 import types
 import asyncio
-import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -96,14 +95,10 @@ class DummyCtx:
         pass
 
 
-def test_process_start_respects_last_method(monkeypatch):
+def test_process_start_respects_last_method():
     cog = ClonerCog(bot=None)
     dummy = DummyCloner(last_method="clone_icon")
     cog.cloners.append(dummy)
-
-    import cogs.cloner_cog as cc
-    monkeypatch.setattr(cc, "cloner", dummy, raising=False)
-    monkeypatch.setattr(cc, "logger", dummy.logger, raising=False)
 
     ctx = DummyCtx()
     asyncio.run(ClonerCog.process.callback(cog, ctx, args_str="start=true save=false"))
