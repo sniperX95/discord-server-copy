@@ -31,8 +31,10 @@ source venv/bin/activate
 
 ### Getting started
 
-Navigate to project directory and execute this commands:
+Navigate to the project directory, copy the example configuration and fill in your token:
 ```bash
+cp config.json.example config.json
+# edit config.json and set your Discord token
 pip install -r requirements.txt
 python main.py
 ```
