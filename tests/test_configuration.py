@@ -1,9 +1,9 @@
-import sys
-from pathlib import Path
+import sys  # noqa: E402
+from pathlib import Path  # noqa: E402
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # noqa: E402
 
-from modules.configuration import Configuration
+from modules.configuration import Configuration  # noqa: E402
 
 
 def test_multiple_writes_preserve_configuration(tmp_path):
