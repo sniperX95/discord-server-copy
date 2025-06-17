@@ -96,8 +96,7 @@ class DummyCtx:
         pass
 
 
-@pytest.mark.asyncio
-async def test_process_start_respects_last_method(monkeypatch):
+def test_process_start_respects_last_method(monkeypatch):
     cog = ClonerCog(bot=None)
     dummy = DummyCloner(last_method="clone_icon")
     cog.cloners.append(dummy)
@@ -107,7 +106,7 @@ async def test_process_start_respects_last_method(monkeypatch):
     monkeypatch.setattr(cc, "logger", dummy.logger, raising=False)
 
     ctx = DummyCtx()
-    await ClonerCog.process.callback(cog, ctx, args_str="start=true save=false")
+    asyncio.run(ClonerCog.process.callback(cog, ctx, args_str="start=true save=false"))
 
     assert "clone_icon" not in dummy.executed
     expected = [
