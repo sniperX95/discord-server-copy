@@ -54,7 +54,7 @@ class ClonerCog(commands.Cog):
             conditions_to_functions = {}
 
             def append_if_different(condition, logger_message, executing_function):
-                if condition and last_method != function.__name__:
+                if condition and last_method != executing_function.__name__:
                     conditions_to_functions[True] = conditions_to_functions.get(True, [])
                     conditions_to_functions[True].append((logger_message, executing_function))
 
